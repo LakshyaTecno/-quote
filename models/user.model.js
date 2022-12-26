@@ -10,8 +10,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   img: {
-    data: Buffer,
-    contentType: String,
+    type: String,
     required: true,
   },
   mobileNo: {
