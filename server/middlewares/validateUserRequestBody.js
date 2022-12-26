@@ -34,7 +34,7 @@ const UserAddBody = async (req, res, next) => {
     if (!isValidMobileNo(req.body.mobileNo)) {
       return res.status(400).send({
         message:
-          "Failed! Not a valid password. Password must be 10 to 25 characters containing at least one lowercase letter, one uppercase letter, one numeric digit, and one special character",
+          "Failed! Not a valid Mobile No. Mobile number  must be 10 to 25 characters ",
       });
     }
 
