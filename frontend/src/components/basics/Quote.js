@@ -7,7 +7,7 @@ const Quote = ({Api}) => {
 
   return (
     <>
-    <Card users={Api}/>
+    <Card/>
     </>
   );
 };

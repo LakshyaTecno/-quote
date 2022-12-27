@@ -25,7 +25,7 @@ db.once("open", () => {
 
 async function init() {
   try {
-    // await User.collection.drop();
+    await User.collection.drop();
     console.log(users);
     const allUsers = await User.insertMany(users);
     console.log(allUsers);
