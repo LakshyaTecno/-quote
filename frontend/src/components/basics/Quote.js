@@ -2,11 +2,12 @@ import React from "react";
 import "./style.css";
 import Card from "./Card";
 
-const Quote = () => {
+const Quote = ({Api}) => {
   
 
   return (
-    <><Card/><Card/><Card/><Card/><Card/><Card/>
+    <>
+    <Card users={Api}/>
     </>
   );
 };

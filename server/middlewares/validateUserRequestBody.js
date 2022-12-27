@@ -5,6 +5,7 @@ const isValidMobileNo = (mobileNo) => {
 
 const UserAddBody = async (req, res, next) => {
   try {
+    console.log(req.body);
     if (!req.body.name) {
       return res.status(400).send({
         message: "Failed! User name is not provided",
@@ -25,17 +26,13 @@ const UserAddBody = async (req, res, next) => {
       });
     }
 
-    if (!req.body.mobileNo) {
-      return res.status(400).send({
-        message: "Failed! mobileNo is not provided",
-      });
-    }
-
-    if (!isValidMobileNo(req.body.mobileNo)) {
-      return res.status(400).send({
-        message:
-          "Failed! Not a valid Mobile No. Mobile number  must be 10 to 25 characters ",
-      });
+    if (req.body.mobileNo) {
+      if (!isValidMobileNo(req.body.mobileNo)) {
+        return res.status(400).send({
+          message:
+            "Failed! Not a valid Mobile No. Mobile number  must be 10 to 25 characters ",
+        });
+      }
     }
 
     next();
