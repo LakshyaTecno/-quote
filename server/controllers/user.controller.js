@@ -1,11 +1,24 @@
 const User = require("../models/user.model");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/data/uploads");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 
 exports.addUser = async (req, res) => {
+  upload.single("image");
   try {
     const userObj = {
       name: req.body.name,
       userId: req.body.userId,
-      img: req.body.img,
+      img: req.file ? req.file.filename : null,
       mobileNo: req.body.mobileNo,
     };
 
