@@ -25,12 +25,12 @@ html {
 }
 
 .main-card--cointainer {
-  margin: 20px;
+  margin: 0px;
 }
 
 .card-container {
   margin: 10px;
- 
+
   float: left;
 }
 
@@ -98,15 +98,14 @@ html {
   text-transform: uppercase;
 }
 
-
-.input-box{
+.input-box {
   border: none;
   width: 138px;
   text-align: center;
   font-size: 18px;
 }
 .card-tag {
-  margin: 5px;
+  margin: 20px 136px;
   border: 1px solid #aaa;
   padding: 5px 10px;
   cursor: pointer;
@@ -163,7 +162,6 @@ body {
 } */
 
 .button {
-  
   display: flex;
   justify-content: center;
   align-items: center;

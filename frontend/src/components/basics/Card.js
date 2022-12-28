@@ -6,6 +6,8 @@ const Card = () => {
   const [flag, setFlag] = useState(true);
   const [users, setUsers] = useState([]);
   const [filterUsers, setFilteruser] = useState([]);
+  const [nameEdit, setNameEdit] = useState("");
+  const [mobileNo, setmobileNo] = useState("");
 
   async function fetchData() {
     try {
@@ -20,12 +22,7 @@ const Card = () => {
     fetchData();
   }, []);
 
-  // console.log("users",users)
-  // console.log("filterUsers",filterUsers)
-
   function filterBasedOnMobile() {
-    console.log("hello");
-    console.log(flag);
     setFilteruser(users);
     if (flag) {
       setFilteruser(
@@ -39,9 +36,32 @@ const Card = () => {
       setFlag(true);
     }
   }
-  useEffect(() => {
-    filterBasedOnMobile();
-  }, [filterUsers]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const editName = async (userId) => {
+    const response = await axios.put("/quote/api/v1/users/" + userId, {
+      name: nameEdit,
+    });
+    console.log(response);
+    fetchData();
+  };
+
+  const editMob = async (userId) => {
+    const response = await axios.put("/quote/api/v1/users/" + userId, {
+      mobileNo: mobileNo,
+    });
+    console.log(response);
+    fetchData();
+  };
+
+  const deleteCard = async (userId) => {
+    const response = await axios.delete("/quote/api/v1/users/" + userId);
+    console.log(response);
+    fetchData();
+  };
+
+  // useEffect(() => {
+  //   filterBasedOnMobile();
+  // }, [filterUsers]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -68,25 +88,44 @@ const Card = () => {
                         className="input-box card-title"
                         type={Text}
                         value={name}
+                        onChange={(e) => {
+                          setNameEdit(e.target.value);
+                        }}
                       />
+                      <i
+                        className="far fa-edit add-btn"
+                        onClick={() => {
+                          editName(userId);
+                        }}
+                      ></i>
+
                       <div className="card-read">
                         <input
                           className="input-box"
                           type={Text}
                           value={mobileNo}
+                          onChange={(e) => {
+                            setmobileNo(e.target.value);
+                          }}
                         />
+
+                        <i
+                          className="far fa-edit add-btn"
+                          onClick={() => {
+                            editMob(userId);
+                          }}
+                        ></i>
                       </div>
                     </div>
                     <img src={photo1} alt="images" className="card-media" />
                     <div>
-                      <button className="card-tag  subtle">Edit </button>
                       <button
                         className="card-tag  subtle"
                         onClick={() => {
-                          // deleteUser(userId);
+                          deleteCard(userId);
                         }}
                       >
-                        Delete{" "}
+                        Delete
                       </button>
                     </div>
                   </div>
