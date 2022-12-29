@@ -4,15 +4,15 @@ import axios from "axios";
 
 const Card = () => {
   const [flag, setFlag] = useState(true);
+  const [initalsUsers, setInitalUsers] = useState([]);
   const [users, setUsers] = useState([]);
-  const [filterUsers, setFilteruser] = useState([]);
-  const [nameEdit, setNameEdit] = useState("");
-  const [mobileNo, setmobileNo] = useState("");
+  const [editValue, setEditValue] = useState({ name: "", mobileNo: "" });
 
   async function fetchData() {
     try {
       const response = await axios.get("/quote/api/v1/users");
       setUsers(response.data);
+      setInitalUsers(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -23,45 +23,41 @@ const Card = () => {
   }, []);
 
   function filterBasedOnMobile() {
-    setFilteruser(users);
     if (flag) {
-      setFilteruser(
-        filterUsers.filter((user) => {
-          return user.mobileNo !== "";
+      console.log("InsideFilter");
+      setUsers(
+        users.filter((user) => {
+          console.log(user.mobileNo);
+          return user.mobileNo !== undefined;
         })
       );
       setFlag(false);
     } else {
-      setFilteruser(users);
+      setUsers(initalsUsers);
       setFlag(true);
     }
   }
 
-  const editName = async (userId) => {
-    const response = await axios.put("/quote/api/v1/users/" + userId, {
-      name: nameEdit,
+  const editCard = async (userId) => {
+    // const response = await axios.put("/quote/api/v1/users/" + userId, {
+    //   name: nameEdit,
+    // });
+    // console.log(response);
+    // fetchData();
+    setUsers();
+    let userTobeEdit = users.map((user) => {
+      return user.userId === userId;
     });
-    console.log(response);
-    fetchData();
-  };
-
-  const editMob = async (userId) => {
-    const response = await axios.put("/quote/api/v1/users/" + userId, {
-      mobileNo: mobileNo,
-    });
-    console.log(response);
-    fetchData();
   };
 
   const deleteCard = async (userId) => {
     const response = await axios.delete("/quote/api/v1/users/" + userId);
-    console.log(response);
-    fetchData();
+    const usersAfterDeletion = users.filter((user) => {
+      return user.userId !== userId;
+    });
+    setUsers(usersAfterDeletion);
+    setInitalUsers(usersAfterDeletion);
   };
-
-  // useEffect(() => {
-  //   filterBasedOnMobile();
-  // }, [filterUsers]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -71,69 +67,73 @@ const Card = () => {
         </button>
       </div>
       <section className="main-card--cointainer">
-        <>
-          {" "}
-          {users.map((user, index) => {
-            const { name, userId, mobileNo } = user;
-            return (
-              <>
-                <div className="card-container" key={userId}>
-                  <div className="card ">
-                    <div className="card-body">
-                      <span className="card-number card-circle subtle">
-                        {index + 1}
-                      </span>
-                      <span className="card-author subtle"> Employee</span>
+        {users.map((user, index) => {
+          const { name, userId, mobileNo } = user;
+          return (
+            <>
+              <div className="card-container" key={userId}>
+                <div className="card ">
+                  <div className="card-body">
+                    <span className="card-number card-circle subtle">
+                      {index + 1}
+                    </span>
+                    <span className="card-author subtle"> Employee</span>
+                    <input
+                      className="input-box card-title"
+                      type={Text}
+                      value={name}
+                      name="name"
+                      onChange={(e) => {
+                        e.preventDefault();
+                        console.log(e.target.value);
+                        setEditValue(e.target.value);
+                        // editName(userId);
+                      }}
+                    />
+                    <i
+                      className="far fa-edit add-btn"
+                      onClick={() => {
+                        //editName(userId);
+                      }}
+                    ></i>
+
+                    <div className="card-read">
                       <input
-                        className="input-box card-title"
+                        className="input-box"
                         type={Text}
-                        value={name}
+                        value={mobileNo}
+                        name="mobileNo"
                         onChange={(e) => {
-                          setNameEdit(e.target.value);
+                          // setmobileNo(e.target.value);
+                          editCard(userId);
                         }}
                       />
+
                       <i
                         className="far fa-edit add-btn"
                         onClick={() => {
-                          editName(userId);
+                          // editMob(userId);
+                          editCard(userId);
                         }}
                       ></i>
-
-                      <div className="card-read">
-                        <input
-                          className="input-box"
-                          type={Text}
-                          value={mobileNo}
-                          onChange={(e) => {
-                            setmobileNo(e.target.value);
-                          }}
-                        />
-
-                        <i
-                          className="far fa-edit add-btn"
-                          onClick={() => {
-                            editMob(userId);
-                          }}
-                        ></i>
-                      </div>
-                    </div>
-                    <img src={photo1} alt="images" className="card-media" />
-                    <div>
-                      <button
-                        className="card-tag  subtle"
-                        onClick={() => {
-                          deleteCard(userId);
-                        }}
-                      >
-                        Delete
-                      </button>
                     </div>
                   </div>
+                  <img src={photo1} alt="images" className="card-media" />
+                  <div>
+                    <button
+                      className="card-tag  subtle"
+                      onClick={() => {
+                        deleteCard(userId);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-              </>
-            );
-          })}
-        </>
+              </div>
+            </>
+          );
+        })}
       </section>
     </>
   );

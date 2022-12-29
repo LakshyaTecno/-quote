@@ -81,7 +81,7 @@ exports.deleteUser = async (req, res) => {
   try {
     const user = req.userInParams;
 
-    await movie.remove();
+    await user.remove();
 
     console.log(`#### User deleted ####`);
     res.status(200).send({ message: "User deleted" });
