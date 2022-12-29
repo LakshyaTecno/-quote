@@ -38,16 +38,24 @@ const Card = () => {
     }
   }
 
-  const editCard = async (userId) => {
+  const editCard = async (userId, e) => {
     // const response = await axios.put("/quote/api/v1/users/" + userId, {
     //   name: nameEdit,
     // });
     // console.log(response);
     // fetchData();
-    setUsers();
-    let userTobeEdit = users.map((user) => {
-      return user.userId === userId;
-    });
+    const keyToBeEdit = e.target.keytobeedit;
+    console.log(keyToBeEdit);
+    const valueToBeEdit = e.target.value;
+    console.log(valueToBeEdit);
+    // setUsers(
+    //   users.map((user) => {
+    //     if (user.userId === userId) {
+    //       //console.log(user);
+    //       user.keyToBeEdit = valueToBeEdit;
+    //     }
+    //   })
+    // );
   };
 
   const deleteCard = async (userId) => {
@@ -82,12 +90,12 @@ const Card = () => {
                       className="input-box card-title"
                       type={Text}
                       value={name}
-                      name="name"
+                      keytobeedit="name"
                       onChange={(e) => {
                         e.preventDefault();
-                        console.log(e.target.value);
-                        setEditValue(e.target.value);
-                        // editName(userId);
+                        // setEditValue(e.target.value);
+                        console.log(e.target.keytobeedit);
+                        editCard(userId, e);
                       }}
                     />
                     <i
@@ -102,10 +110,10 @@ const Card = () => {
                         className="input-box"
                         type={Text}
                         value={mobileNo}
-                        name="mobileNo"
+                        keytobeedit="mobileNo"
                         onChange={(e) => {
                           // setmobileNo(e.target.value);
-                          editCard(userId);
+                          editCard(userId, e);
                         }}
                       />
 
