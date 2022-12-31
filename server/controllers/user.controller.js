@@ -60,6 +60,7 @@ exports.findByUserId = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const user = req.userInParams;
+    console.log(req.body.mobileNo);
 
     user.name = req.body.name ? req.body.name : user.name;
     user.img = req.body.img ? req.body.img : user.img;
@@ -67,8 +68,8 @@ exports.updateUser = async (req, res) => {
 
     const updatedUser = await user.save();
 
-    console.log(`#### ${updatedUser.name} data updated ####`);
-    res.status(200).send(objectConverter.singleUserResponse(updatedUser));
+    console.log(`#### ${updatedUser} data updated ####`);
+    res.status(200).send(updatedUser);
   } catch (err) {
     console.log("#### Error while updating user data #### ", err.message);
     res.status(500).send({

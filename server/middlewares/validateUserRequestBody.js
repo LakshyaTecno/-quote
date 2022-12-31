@@ -48,6 +48,8 @@ const UserAddBody = async (req, res, next) => {
 };
 
 const UserUpdateBody = (req, res, next) => {
+  // if (req.body.mobileNo && !isValidMobileNo(req.body.mobileNo))
+
   if (req.body.mobileNo && !isValidMobileNo(req.body.mobileNo)) {
     return res.status(400).send({
       message: "Failed! Not a valid MobileNo ",

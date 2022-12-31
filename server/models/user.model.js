@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
   mobileNo: {
     type: String,
     lowercase: true,
-    minLength: 10,
   },
   createdAt: {
     type: Date,

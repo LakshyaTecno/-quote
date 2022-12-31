@@ -18,7 +18,7 @@ module.exports = (app) => {
   );
   app.put(
     "/quote/api/v1/users/:id",
-    [validateIdInParams.userInParams, validateUserRequestBodies.UserUpdateBody],
+    [validateIdInParams.userInParams],
     userController.updateUser
   );
   app.delete(
